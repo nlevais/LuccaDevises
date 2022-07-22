@@ -90,6 +90,7 @@ public class Change
 		}
 
 		// Calcul en lui même, une fois les étapes les plus directes connues
+		bool cheminTrouved = false;
 		int indice = 0;
 		decimal calcul = montant;
 		foreach (var item in liste
@@ -112,13 +113,14 @@ public class Change
 			.Select(g => g.Liste)
 			.FirstOrDefault() ?? new())
 		{
+			cheminTrouved = true;
 			calcul = Math.Round(calcul * item.Taux, 4);
 		}
 
-		if (calcul.Equals(montant))
-			return decimal.MinusOne;
-		else
+		if (cheminTrouved)
 			return Math.Round(calcul);
+		else
+			return decimal.MinusOne;
 	}
 
 }
